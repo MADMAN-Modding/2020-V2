@@ -11,9 +11,9 @@ import frc.robot.subsystems.Drive;
 
 public class TeleopDrive extends Command {
 
-  public DoubleSupplier leftX;
+  public DoubleSupplier leftY;
 
-  public DoubleSupplier rightY;
+  public DoubleSupplier rightX;
 
 
   public Drive drive;
@@ -22,8 +22,8 @@ public class TeleopDrive extends Command {
   public TeleopDrive(Drive drive, DoubleSupplier leftX, DoubleSupplier rightY) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drive;
-    this.leftX = leftX;
-    this.rightY = rightY;
+    this.leftY = leftY;
+    this.rightX = rightX;
     addRequirements(drive);
   }
 
@@ -34,7 +34,7 @@ public class TeleopDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.drive(leftX.getAsDouble(), rightY.getAsDouble());
+    drive.drive(leftY.getAsDouble(), rightX.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
