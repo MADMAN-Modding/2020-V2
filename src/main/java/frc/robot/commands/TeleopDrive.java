@@ -19,7 +19,7 @@ public class TeleopDrive extends Command {
   public Drive drive;
 
   /** Creates a new TeleopDrive. */
-  public TeleopDrive(Drive drive, DoubleSupplier leftX, DoubleSupplier rightY) {
+  public TeleopDrive(Drive drive, DoubleSupplier leftY, DoubleSupplier rightX) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drive;
     this.leftY = leftY;
