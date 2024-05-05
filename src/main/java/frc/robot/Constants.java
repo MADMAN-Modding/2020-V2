@@ -17,7 +17,7 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public class Drive {
+  public class DriveValues {
     public static int driveLeft = 2;
     public static int followerLeft = 13;
     public static boolean driveLeftInverted = true;

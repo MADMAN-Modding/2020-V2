@@ -13,17 +13,17 @@ import frc.robot.Constants;
 
 public class Drive extends SubsystemBase {
   /** Creates a new Drive. */
-  private final TalonSRX driveLeft = new TalonSRX(Constants.Drive.driveLeft);
-  private final TalonSRX driveRight = new TalonSRX(Constants.Drive.driveRight);
-  private final TalonSRX followerLeft = new TalonSRX(Constants.Drive.followerLeft);
-  private final TalonSRX followerRight = new TalonSRX(Constants.Drive.followerRight);
+  private final TalonSRX driveLeft = new TalonSRX(Constants.DriveValues.driveLeft);
+  private final TalonSRX driveRight = new TalonSRX(Constants.DriveValues.driveRight);
+  private final TalonSRX followerLeft = new TalonSRX(Constants.DriveValues.followerLeft);
+  private final TalonSRX followerRight = new TalonSRX(Constants.DriveValues.followerRight);
 
 
   public Drive() {
-    driveLeft.setInverted(Constants.Drive.driveLeftInverted);
-    driveRight.setInverted(Constants.Drive.driveRightInverted);
-    followerLeft.setInverted(Constants.Drive.followerLeftInverted);
-    followerRight.setInverted(Constants.Drive.followerRightInverted);
+    driveLeft.setInverted(Constants.DriveValues.driveLeftInverted);
+    driveRight.setInverted(Constants.DriveValues.driveRightInverted);
+    followerLeft.setInverted(Constants.DriveValues.followerLeftInverted);
+    followerRight.setInverted(Constants.DriveValues.followerRightInverted);
   }
 
   @Override
