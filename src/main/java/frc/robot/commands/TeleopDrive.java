@@ -7,6 +7,7 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.Drive;
 
 public class TeleopDrive extends Command {
@@ -14,7 +15,6 @@ public class TeleopDrive extends Command {
   public DoubleSupplier leftY;
 
   public DoubleSupplier rightX;
-
 
   public Drive drive;
 
@@ -34,7 +34,7 @@ public class TeleopDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.drive(leftY.getAsDouble(), rightX.getAsDouble());
+    drive.drive(leftY.getAsDouble() * Constants.DriveValues.maxSpeed, rightX.getAsDouble() * Constants.DriveValues.maxSpeed);
   }
 
   // Called once the command ends or is interrupted.

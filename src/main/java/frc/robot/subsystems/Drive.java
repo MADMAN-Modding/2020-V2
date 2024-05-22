@@ -6,7 +6,9 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.math.Filter;
 import frc.robot.Constants;
@@ -18,17 +20,23 @@ public class Drive extends SubsystemBase {
   private final TalonSRX followerLeft = new TalonSRX(Constants.DriveValues.followerLeft);
   private final TalonSRX followerRight = new TalonSRX(Constants.DriveValues.followerRight);
 
+  private double increment = 0;
 
   public Drive() {
     driveLeft.setInverted(Constants.DriveValues.driveLeftInverted);
     driveRight.setInverted(Constants.DriveValues.driveRightInverted);
     followerLeft.setInverted(Constants.DriveValues.followerLeftInverted);
     followerRight.setInverted(Constants.DriveValues.followerRightInverted);
+
+    driveLeft.config_kP(Constants.DriveValues.leftDrivePID.leftMotorPIDController, Constants.DriveValues.leftDrivePID.kP);
+    driveRight.config_kP(Constants.DriveValues.rightDrivePID.rightMotorPIDController, Constants.DriveValues.rightDrivePID.kP);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Left Drive Encoder", driveLeft.getSelectedSensorPosition(Constants.DriveValues.leftDrivePID.leftMotorPIDController));
+    SmartDashboard.putNumber("Right Drive Encoder", driveRight.getSelectedSensorPosition(Constants.DriveValues.rightDrivePID.rightMotorPIDController));
   }
 
   public void drive(double left, double right) {
@@ -43,7 +51,15 @@ public class Drive extends SubsystemBase {
     driveLeft.set(TalonSRXControlMode.PercentOutput, leftSpeed);
     driveRight.set(TalonSRXControlMode.PercentOutput, rightSpeed);
 
-    followerLeft.set(TalonSRXControlMode.PercentOutput, leftSpeed);
-    followerRight.set(TalonSRXControlMode.PercentOutput, rightSpeed);
+    followerLeft.follow(driveLeft);
+    followerRight.follow(driveRight);
+  }
+
+  public void updatePID(double increment) {
+
+    this.increment += increment;
+
+    driveLeft.config_kP(Constants.DriveValues.leftDrivePID.leftMotorPIDController, Constants.DriveValues.leftDrivePID.kP + this.increment);
+    driveRight.config_kP(Constants.DriveValues.rightDrivePID.rightMotorPIDController, Constants.DriveValues.rightDrivePID.kP + this.increment);
   }
 }
