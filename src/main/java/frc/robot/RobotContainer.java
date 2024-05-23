@@ -45,10 +45,7 @@ public class RobotContainer {
   }
 
 
-  private void configureBindings() {
-    povUp.onTrue(new InstantCommand(() -> drive.updatePID(0.05)));
-    povDown.onTrue(new InstantCommand(() -> drive.updatePID(-0.05)));
-  }
+  private void configureBindings() {}
 
   public Command getAutonomousCommand() {
     return null;

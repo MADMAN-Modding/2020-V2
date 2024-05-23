@@ -4,9 +4,12 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.SlotConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,10 +20,8 @@ public class Drive extends SubsystemBase {
   /** Creates a new Drive. */
   private final TalonSRX driveLeft = new TalonSRX(Constants.DriveValues.driveLeft);
   private final TalonSRX driveRight = new TalonSRX(Constants.DriveValues.driveRight);
-  private final TalonSRX followerLeft = new TalonSRX(Constants.DriveValues.followerLeft);
-  private final TalonSRX followerRight = new TalonSRX(Constants.DriveValues.followerRight);
-
-  private double increment = 0;
+  private final VictorSPX followerLeft = new VictorSPX(Constants.DriveValues.followerLeft);
+  private final VictorSPX followerRight = new VictorSPX(Constants.DriveValues.followerRight);
 
   public Drive() {
     driveLeft.setInverted(Constants.DriveValues.driveLeftInverted);
@@ -30,6 +31,10 @@ public class Drive extends SubsystemBase {
 
     driveLeft.config_kP(Constants.DriveValues.leftDrivePID.leftMotorPIDController, Constants.DriveValues.leftDrivePID.kP);
     driveRight.config_kP(Constants.DriveValues.rightDrivePID.rightMotorPIDController, Constants.DriveValues.rightDrivePID.kP);
+
+    driveLeft.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.QuadEncoder, Constants.DriveValues.leftDrivePID.leftMotorPIDController, 100);
+    driveRight.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.QuadEncoder, Constants.DriveValues.rightDrivePID.rightMotorPIDController, 100);
+    
   }
 
   @Override
@@ -37,6 +42,8 @@ public class Drive extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Left Drive Encoder", driveLeft.getSelectedSensorPosition(Constants.DriveValues.leftDrivePID.leftMotorPIDController));
     SmartDashboard.putNumber("Right Drive Encoder", driveRight.getSelectedSensorPosition(Constants.DriveValues.rightDrivePID.rightMotorPIDController));
+    SmartDashboard.putNumber("Left Sensor Velocity", driveLeft.getSelectedSensorVelocity(Constants.DriveValues.leftDrivePID.leftMotorPIDController));
+    SmartDashboard.putNumber("Right Sensor Velocity", driveRight.getSelectedSensorVelocity(Constants.DriveValues.leftDrivePID.leftMotorPIDController));
   }
 
   public void drive(double left, double right) {
@@ -48,18 +55,10 @@ public class Drive extends SubsystemBase {
 
     double rightSpeed = Filter.cutoffFilter(left-right);
 
-    driveLeft.set(TalonSRXControlMode.PercentOutput, leftSpeed);
-    driveRight.set(TalonSRXControlMode.PercentOutput, rightSpeed);
+    driveLeft.set(ControlMode.Velocity, leftSpeed * 1000);
+    driveRight.set(ControlMode.Velocity, rightSpeed * 1000);
 
     followerLeft.follow(driveLeft);
     followerRight.follow(driveRight);
-  }
-
-  public void updatePID(double increment) {
-
-    this.increment += increment;
-
-    driveLeft.config_kP(Constants.DriveValues.leftDrivePID.leftMotorPIDController, Constants.DriveValues.leftDrivePID.kP + this.increment);
-    driveRight.config_kP(Constants.DriveValues.rightDrivePID.rightMotorPIDController, Constants.DriveValues.rightDrivePID.kP + this.increment);
   }
 }
