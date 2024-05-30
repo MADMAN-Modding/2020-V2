@@ -31,22 +31,22 @@ public final class Constants {
     public static double maxSpeed = 0.8;
 
     public class leftDrivePID { 
-      public static double kP = 0.04;
+      public static double kP = 0.30;
       public static double kI = 0;
       public static double kD = 0;
       public static double kF = 0;
 
-      // Which controller to use 1 = 0
+      // Which controller to use, 1 = primary, 0 = aux (I know it's weird just go with it)
       public static int leftMotorPIDController = 0;
     }
 
     public class rightDrivePID {
-      public static double kP = 0.04;
+      public static double kP = 0.30;
       public static double kI = 0;
       public static double kD = 0;
       public static double kF = 0;
 
-      // Which controller to use 1 = 0
+      // Which controller to use, 1 = primary, 0 = aux (I know it's weird just go with it)
       public static int rightMotorPIDController = 0;
     }
 
