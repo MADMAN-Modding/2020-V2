@@ -16,8 +16,8 @@ import frc.robot.Constants;
 
 public class Drive extends SubsystemBase {
   /** Creates a new Drive. */
-  private final TalonSRX driveLeft = new TalonSRX(Constants.DriveValues.driveLeft);
-  private final TalonSRX driveRight = new TalonSRX(Constants.DriveValues.driveRight);
+  private final TalonSRX driveLeft = new TalonSRX(Constants.DriveValues.driveLeftID);
+  private final TalonSRX driveRight = new TalonSRX(Constants.DriveValues.driveRightID);
   private final VictorSPX followerLeft = new VictorSPX(Constants.DriveValues.followerLeft);
   private final VictorSPX followerRight = new VictorSPX(Constants.DriveValues.followerRight);
 
@@ -75,5 +75,8 @@ public class Drive extends SubsystemBase {
 
     followerLeft.follow(driveLeft);
     followerRight.follow(driveRight);
+
+    // followerLeft.set(ControlMode.PercentOutput, leftSpeed);
+    // followerRight.set(ControlMode.PercentOutput, rightSpeed);
   }
 }

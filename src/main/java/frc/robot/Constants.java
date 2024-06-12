@@ -18,20 +18,20 @@ public final class Constants {
   }
 
   public class DriveValues {
-    public static int driveLeft = 2;
+    public static int driveLeftID = 2;
     public static int followerLeft = 13;
     public static boolean driveLeftInverted = true;
     public static boolean followerLeftInverted = true;
 
-    public static int driveRight = 4;
+    public static int driveRightID = 4;
     public static int followerRight = 14;
     public static boolean driveRightInverted = true;
     public static boolean followerRightInverted = true;
 
-    public static double maxSpeed = 0.8;
+    public static double maxSpeed = 0.2;
 
     public class leftDrivePID { 
-      public static double kP = 0.30;
+      public static double kP = 0.55;
       public static double kI = 0;
       public static double kD = 0;
       public static double kF = 0;
@@ -41,7 +41,7 @@ public final class Constants {
     }
 
     public class rightDrivePID {
-      public static double kP = 0.30;
+      public static double kP = 0.55;
       public static double kI = 0;
       public static double kD = 0;
       public static double kF = 0;
