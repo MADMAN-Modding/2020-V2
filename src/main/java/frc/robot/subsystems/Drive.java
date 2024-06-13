@@ -54,7 +54,7 @@ public class Drive extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Left Drive Encoder", driveLeft.getSelectedSensorPosition(Constants.DriveValues.leftDrivePID.leftMotorPIDController));
     SmartDashboard.putNumber("Right Drive Encoder", driveRight.getSelectedSensorPosition(Constants.DriveValues.rightDrivePID.rightMotorPIDController));
-    SmartDashboard.putNumber("Left Sensor Velocity", driveLeft.getSelectedSensorVelocity(Constants.DriveValues.leftDrivePID.leftMotorPIDController));
+    SmartDashboard.putNumber("Left Sensor Velocity", driveLeft.getSelectedSensorVelocity(Constants.DriveValues.leftDrivePID.leftMotorPIDController) * -1);
     SmartDashboard.putNumber("Right Sensor Velocity", driveRight.getSelectedSensorVelocity(Constants.DriveValues.rightDrivePID.rightMotorPIDController) * -1);
   }
 
@@ -70,13 +70,16 @@ public class Drive extends SubsystemBase {
     SmartDashboard.putNumber("Commanded Velocity Left", leftSpeed * 1000);
     SmartDashboard.putNumber("Commanded Velocity Right", rightSpeed * 1000);
 
-    driveLeft.set(ControlMode.Velocity, leftSpeed * 1000);
-    driveRight.set(ControlMode.Velocity, rightSpeed * 1000);
+    // driveLeft.set(ControlMode.Velocity, leftSpeed * 1000);
+    // driveRight.set(ControlMode.Velocity, rightSpeed * 1000);
 
-    followerLeft.follow(driveLeft);
-    followerRight.follow(driveRight);
+    // driveLeft.set(ControlMode.PercentOutput, leftSpeed);
+    // driveRight.set(ControlMode.PercentOutput, rightSpeed);
 
-    // followerLeft.set(ControlMode.PercentOutput, leftSpeed);
-    // followerRight.set(ControlMode.PercentOutput, rightSpeed);
+    // followerLeft.follow(driveLeft);
+    // followerRight.follow(driveRight);
+
+    followerLeft.set(ControlMode.PercentOutput, leftSpeed);
+    followerRight.set(ControlMode.PercentOutput, rightSpeed);
   }
 }

@@ -20,15 +20,15 @@ public final class Constants {
   public class DriveValues {
     public static int driveLeftID = 2;
     public static int followerLeft = 13;
-    public static boolean driveLeftInverted = true;
-    public static boolean followerLeftInverted = true;
+    public static boolean driveLeftInverted = false;
+    public static boolean followerLeftInverted = false;
 
     public static int driveRightID = 4;
     public static int followerRight = 14;
     public static boolean driveRightInverted = true;
     public static boolean followerRightInverted = true;
 
-    public static double maxSpeed = 0.2;
+    public static double maxSpeed = 0.3;
 
     public class leftDrivePID { 
       public static double kP = 0.55;

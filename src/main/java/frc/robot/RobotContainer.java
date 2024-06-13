@@ -38,11 +38,14 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
+    // drive.setDefaultCommand(new TeleopDrive(
+    //   drive,
+    //   () -> -m_driverController.getLeftY(),
+    //   () -> Filter.powerCurve(m_driverController.getRightX(), 3)
+    // ));
+
     drive.setDefaultCommand(new TeleopDrive(
-      drive,
-      () -> -m_driverController.getLeftY(),
-      () -> Filter.powerCurve(m_driverController.getRightX(), 3)
-    ));
+      drive, () -> .5, () -> 0));
   }
 
 
