@@ -6,8 +6,10 @@ package frc.robot;
 
 import frc.lib.math.Filter;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ShooterControl;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
@@ -23,7 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private Drive drive = new Drive();
-
+  private Shooter shooter = new Shooter();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -38,18 +40,18 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    // drive.setDefaultCommand(new TeleopDrive(
-    //   drive,
-    //   () -> -m_driverController.getLeftY(),
-    //   () -> Filter.powerCurve(m_driverController.getRightX(), 3)
-    // ));
-
     drive.setDefaultCommand(new TeleopDrive(
-      drive, () -> .5, () -> 0));
+      drive,
+      () -> -m_driverController.getLeftY(),
+      () -> Filter.powerCurve(m_driverController.getRightX(), 3)
+    ));
   }
 
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    b.onTrue(new InstantCommand(() -> shooter.shoot(1, 1)));
+    b.onFalse(new InstantCommand(() -> shooter.shoot(0, 0)));  
+  }
 
   public Command getAutonomousCommand() {
     return null;

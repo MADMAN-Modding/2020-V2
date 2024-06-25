@@ -70,16 +70,16 @@ public class Drive extends SubsystemBase {
     SmartDashboard.putNumber("Commanded Velocity Left", leftSpeed * 1000);
     SmartDashboard.putNumber("Commanded Velocity Right", rightSpeed * 1000);
 
-    // driveLeft.set(ControlMode.Velocity, leftSpeed * 1000);
-    // driveRight.set(ControlMode.Velocity, rightSpeed * 1000);
+    driveLeft.set(ControlMode.Velocity, leftSpeed * 1000);
+    driveRight.set(ControlMode.Velocity, rightSpeed * 1000);
 
     // driveLeft.set(ControlMode.PercentOutput, leftSpeed);
     // driveRight.set(ControlMode.PercentOutput, rightSpeed);
 
-    // followerLeft.follow(driveLeft);
-    // followerRight.follow(driveRight);
+    followerLeft.follow(driveLeft);
+    followerRight.follow(driveRight);
 
-    followerLeft.set(ControlMode.PercentOutput, leftSpeed);
-    followerRight.set(ControlMode.PercentOutput, rightSpeed);
+    // followerLeft.set(ControlMode.PercentOutput, leftSpeed);
+    // followerRight.set(ControlMode.PercentOutput, rightSpeed);
   }
 }

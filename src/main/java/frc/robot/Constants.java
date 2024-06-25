@@ -28,7 +28,7 @@ public final class Constants {
     public static boolean driveRightInverted = true;
     public static boolean followerRightInverted = true;
 
-    public static double maxSpeed = 0.3;
+    public static double maxSpeed = 0.7;
 
     public class leftDrivePID { 
       public static double kP = 0.55;
