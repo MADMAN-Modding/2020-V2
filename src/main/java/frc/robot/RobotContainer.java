@@ -6,13 +6,11 @@ package frc.robot;
 
 import frc.lib.math.Filter;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.ShooterControl;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -31,9 +29,9 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
-  private final Trigger b = m_driverController.b();
-  private final Trigger povUp = m_driverController.povUp();
-  private final Trigger povDown = m_driverController.povDown();
+  private final Trigger a = m_driverController.a(); // Shooter Button
+  private final Trigger y = m_driverController.y(); // Tilt Up Button
+  private final Trigger b = m_driverController.b(); // Tilt Down Button
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -49,8 +47,14 @@ public class RobotContainer {
 
 
   private void configureBindings() {
-    b.onTrue(new InstantCommand(() -> shooter.shoot(1, 1)));
-    b.onFalse(new InstantCommand(() -> shooter.shoot(0, 0)));  
+    // Runs the shooter
+    a.onTrue(new InstantCommand(() -> shooter.shoot(1, 1)));
+    a.onFalse(new InstantCommand(() -> shooter.shoot(0, 0)));
+
+    y.onTrue(new InstantCommand(() -> shooter.tilt(0.1)));
+
+    b.onTrue(new InstantCommand(() -> shooter.tilt(-0.1)));
+
   }
 
   public Command getAutonomousCommand() {

@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -21,12 +22,11 @@ public class Shooter extends SubsystemBase {
   private final TalonFX tilt = new TalonFX(Constants.Shooter.tilt);
 
   /** Creates a new Shooter. */
-  public Shooter() {
-  }
+  public Shooter() {}
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Tilt Position", tilt.getPosition().getValueAsDouble());
   }
 
   public void shoot(double power, double conveyorPower) {
@@ -37,7 +37,7 @@ public class Shooter extends SubsystemBase {
     beaterBar.set(conveyorPower);
   }
 
-  public void tilt() {
-
+  public void tilt(double direction) {
+    tilt.setPosition(tilt.getPosition().getValueAsDouble() + direction);
   }
 }
