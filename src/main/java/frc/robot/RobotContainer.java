@@ -48,12 +48,12 @@ public class RobotContainer {
 
   private void configureBindings() {
     // Runs the shooter
-    a.onTrue(new InstantCommand(() -> shooter.shoot(1, 1)));
-    a.onFalse(new InstantCommand(() -> shooter.shoot(0, 0)));
+    b.onTrue(new InstantCommand(() -> shooter.shoot(1, 1)));
+    b.onFalse(new InstantCommand(() -> shooter.shoot(0, 0)));
 
     y.onTrue(new InstantCommand(() -> shooter.tilt(0.1)));
 
-    b.onTrue(new InstantCommand(() -> shooter.tilt(-0.1)));
+    a.onTrue(new InstantCommand(() -> shooter.tilt(-0.1)));
 
   }
 
