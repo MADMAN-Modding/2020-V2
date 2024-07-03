@@ -9,10 +9,11 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Shooter;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -26,12 +27,12 @@ public class RobotContainer {
   private Shooter shooter = new Shooter();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final Joystick controller =
+      new Joystick(OperatorConstants.kDriverControllerPort);
 
-  private final Trigger a = m_driverController.a(); // Shooter Button
-  private final Trigger y = m_driverController.y(); // Tilt Up Button
-  private final Trigger b = m_driverController.b(); // Tilt Down Button
+  private final JoystickButton a = new JoystickButton(controller, XboxController.Button.kA.value); // Shooter Button
+  private final JoystickButton y = new JoystickButton(controller, XboxController.Button.kY.value); // Tilt Up Button
+  private final JoystickButton b = new JoystickButton(controller, XboxController.Button.kB.value); // Tilt Down Button
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -40,21 +41,22 @@ public class RobotContainer {
 
     drive.setDefaultCommand(new TeleopDrive(
       drive,
-      () -> -m_driverController.getLeftY(),
-      () -> Filter.powerCurve(m_driverController.getRightX(), 3)
+      () -> -controller.getRawAxis(XboxController.Axis.kLeftY.value),
+      () -> Filter.powerCurve(controller.getRawAxis(XboxController.Axis.kRightX.value), 3)
     ));
   }
 
 
   private void configureBindings() {
     // Runs the shooter
-    b.onTrue(new InstantCommand(() -> shooter.shoot(1, 1)));
+    b.onTrue(new InstantCommand(() -> shooter.shoot(.8, 0)));
     b.onFalse(new InstantCommand(() -> shooter.shoot(0, 0)));
 
     y.onTrue(new InstantCommand(() -> shooter.tilt(0.1)));
-
+    y.onFalse(new InstantCommand(() -> shooter.tilt(0)));
+    
     a.onTrue(new InstantCommand(() -> shooter.tilt(-0.1)));
-
+    a.onFalse(new InstantCommand(() -> shooter.tilt(0)));
   }
 
   public Command getAutonomousCommand() {
