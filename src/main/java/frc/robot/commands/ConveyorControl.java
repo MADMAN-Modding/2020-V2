@@ -35,11 +35,7 @@ public class ConveyorControl extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println(this.speed.getAsDouble() + "Pre");
-    System.out.println(buttonPressed.getAsBoolean() + "Button");
-    System.out.println(switchPressed.getAsBoolean() + "Switch");
     DoubleSupplier speed = buttonPressed.getAsBoolean() && switchPressed.getAsBoolean() ? this.speed : () -> 0;
-    System.out.println(speed.getAsDouble() + "After");
 
     conveyor.move(speed.getAsDouble());
   }

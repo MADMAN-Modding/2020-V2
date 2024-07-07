@@ -40,10 +40,6 @@ public class Shooter extends SubsystemBase {
 
     tilt.setNeutralMode(NeutralModeValue.Brake);
 
-    // shooterLeft.config_kP(0, Constants.Shooter.Propulsion.kP);
-    // shooterLeft.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.QuadEncoder,
-    // Constants.Shooter.Propulsion.feedBackSensor, 100);
-
     shooterRight.config_kP(0, Constants.Shooter.Propulsion.kP);
     shooterRight.config_kI(0, Constants.Shooter.Propulsion.kI);
     shooterRight.config_kD(0, Constants.Shooter.Propulsion.kD);
@@ -63,16 +59,7 @@ public class Shooter extends SubsystemBase {
 
   public void shoot(double shooterPower) {
     shooterRight.set(TalonSRXControlMode.PercentOutput, shooterPower);
-    // shooterLeft.set(TalonSRXControlMode.PercentOutput, shooterPower);
     shooterLeft.follow(shooterRight);
-
-    // if (shooterRight.getSelectedSensorVelocity() >= 35000) {
-    //   for (int i = 0; i < 20000; i++) {
-    //     conveyor(.7);
-    //   }
-
-    //   conveyor(0);
-    // }
   }
 
 

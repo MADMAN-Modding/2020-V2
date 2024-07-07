@@ -60,7 +60,7 @@ public class RobotContainer {
         () -> -controller.getRawAxis(XboxController.Axis.kLeftY.value),
         () -> Filter.powerCurve(controller.getRawAxis(XboxController.Axis.kRightX.value), 3)));
 
-    shooter.setDefaultCommand(new ShooterControl(() -> topSwitch.get(), shooter));
+    shooter.setDefaultCommand(new ShooterControl(() -> topSwitch.get(), () -> b.getAsBoolean(), shooter));
     conveyor.setDefaultCommand(new ConveyorControl(() -> b.getAsBoolean(), () -> topSwitch.get(), conveyor, () -> 0.5));
 
     // shooter.setDefaultCommand(new ShooterControl(shooter, () -> topSwitch.get()));

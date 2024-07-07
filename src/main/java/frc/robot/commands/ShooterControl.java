@@ -15,9 +15,11 @@ import frc.robot.subsystems.Shooter;
 public class ShooterControl extends InstantCommand {
   Shooter shooter;
   BooleanSupplier switchPressed;
+  BooleanSupplier buttonPressed;
 
-  public ShooterControl(BooleanSupplier switchPressed, Shooter shooter) {
+  public ShooterControl(BooleanSupplier switchPressed, BooleanSupplier buttonPressed, Shooter shooter) {
     this.switchPressed = switchPressed;
+    this.buttonPressed = buttonPressed;
     this.shooter = shooter;
     // this.topPressed = topButton;
     addRequirements(shooter);
@@ -29,7 +31,7 @@ public class ShooterControl extends InstantCommand {
   public void initialize() {}
 
   public void execute() {
-    double speed = !switchPressed.getAsBoolean() ? 0.5 : 0;
+    double speed = !switchPressed.getAsBoolean() && buttonPressed.getAsBoolean() ? 0.5 : 0;
     shooter.shoot(speed);
   }
 }
