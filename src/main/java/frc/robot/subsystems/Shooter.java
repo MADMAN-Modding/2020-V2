@@ -4,11 +4,11 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -18,14 +18,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-
 // Shooter left is commented because the motor burnt
 public class Shooter extends SubsystemBase {
-  private final VictorSPX conveyor = new VictorSPX(Constants.Conveyor.conveyor);
-  private final TalonFX beaterBar = new TalonFX(Constants.Conveyor.beaterBar);
   private final TalonSRX shooterLeft = new TalonSRX(Constants.Shooter.Propulsion.shooterLeft);
   private final TalonSRX shooterRight = new TalonSRX(Constants.Shooter.Propulsion.shooterRight);
   private final TalonFX tilt = new TalonFX(Constants.Shooter.Tilt.tilt);
+
+  public DoubleSupplier conveyorSpeed = () -> 0.5;
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -42,11 +41,19 @@ public class Shooter extends SubsystemBase {
     tilt.setNeutralMode(NeutralModeValue.Brake);
 
     // shooterLeft.config_kP(0, Constants.Shooter.Propulsion.kP);
-    // shooterLeft.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.QuadEncoder, Constants.Shooter.Propulsion.feedBackSensor, 100);
+    // shooterLeft.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.QuadEncoder,
+    // Constants.Shooter.Propulsion.feedBackSensor, 100);
 
-    // shooterRight.config_kP(0, Constants.Shooter.Propulsion.kP);
-    shooterRight.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.QuadEncoder, Constants.Shooter.Propulsion.feedBackSensor, 100);
- }
+    shooterRight.config_kP(0, Constants.Shooter.Propulsion.kP);
+    shooterRight.config_kI(0, Constants.Shooter.Propulsion.kI);
+    shooterRight.config_kD(0, Constants.Shooter.Propulsion.kD);
+    shooterRight.config_kF(0, Constants.Shooter.Propulsion.kF);
+    shooterRight.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.QuadEncoder,
+        Constants.Shooter.Propulsion.feedBackSensor, 100);
+    shooterRight.setInverted(Constants.Shooter.Propulsion.shooterRightInverted);
+    shooterLeft.setInverted(Constants.Shooter.Propulsion.shooterLeftInverted);
+
+  }
 
   @Override
   public void periodic() {
@@ -54,15 +61,20 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Shooter Vel", shooterRight.getSelectedSensorVelocity());
   }
 
-  public void shoot(double power, double conveyorPower) {
-    shooterLeft.set(TalonSRXControlMode.PercentOutput, power);
-    shooterRight.set(TalonSRXControlMode.PercentOutput, power * -1);
-    
-    SmartDashboard.putNumber("Shooter Commanded Vel", power * -1);
+  public void shoot(double shooterPower) {
+    shooterRight.set(TalonSRXControlMode.PercentOutput, shooterPower);
+    // shooterLeft.set(TalonSRXControlMode.PercentOutput, shooterPower);
+    shooterLeft.follow(shooterRight);
 
-    conveyor.set(VictorSPXControlMode.PercentOutput, conveyorPower);
-    beaterBar.set(conveyorPower);
+    // if (shooterRight.getSelectedSensorVelocity() >= 35000) {
+    //   for (int i = 0; i < 20000; i++) {
+    //     conveyor(.7);
+    //   }
+
+    //   conveyor(0);
+    // }
   }
+
 
 
   public void tilt(double direction) {

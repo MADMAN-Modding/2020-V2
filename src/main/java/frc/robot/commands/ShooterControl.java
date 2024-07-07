@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Shooter;
 
@@ -12,22 +14,22 @@ import frc.robot.subsystems.Shooter;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ShooterControl extends InstantCommand {
   Shooter shooter;
-  
-  Double speed;
+  BooleanSupplier switchPressed;
 
-  public ShooterControl(double speed, Shooter shooter) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    this.speed = speed;
+  public ShooterControl(BooleanSupplier switchPressed, Shooter shooter) {
+    this.switchPressed = switchPressed;
     this.shooter = shooter;
-
+    // this.topPressed = topButton;
     addRequirements(shooter);
   }
+
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
 
   public void execute() {
-    shooter.shoot(speed, 1);
+    double speed = !switchPressed.getAsBoolean() ? 0.5 : 0;
+    shooter.shoot(speed);
   }
 }

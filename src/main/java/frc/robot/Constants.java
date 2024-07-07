@@ -32,21 +32,21 @@ public final class Constants {
     public static boolean driveRightInverted = true;
     public static boolean followerRightInverted = true;
 
-    public static double maxSpeed = 0.7;
+    public static double maxSpeed = 0.5;
 
-    public class leftDrivePID {
-      public static double kP = 0.55;
+    public class driveLeftPID {
+      public static double kP = 0.45;
       public static double kI = 0;
       public static double kD = 0;
-      public static double kF = 0;
+      public static double kF = 0.225;
 
       // Which controller to use, 1 = primary, 0 = aux (I know it's weird just go with
       // it)
       public static int leftMotorPIDController = 0;
     }
 
-    public class rightDrivePID {
-      public static double kP = 0.55;
+    public class driveRightPID {
+      public static double kP = 0.45;
       public static double kI = 0;
       public static double kD = 0;
       public static double kF = 0;
@@ -70,12 +70,15 @@ public final class Constants {
       public static int shooterRight = 7;
       public static int shooterLeft = 8;
 
+      public static boolean shooterRightInverted = false;
+      public static boolean shooterLeftInverted = true;
+
       public static int feedBackSensor = 0;
 
-      public static double kP = 0.05;
+      public static double kP = 0.2;
       public static double kI = 0;
       public static double kD = 0;
-      public static double kF = 0;
+      public static double kF = 0.04;
     }
 
   }
@@ -85,4 +88,9 @@ public final class Constants {
     public static int beaterBar = 11;
   }
 
+  public class LimitSwitches {
+    public static int topSwitch = 3;
+    public static int middleSwitch = 2;
+    public static int bottomSwitch = 1;
+  }
 }
