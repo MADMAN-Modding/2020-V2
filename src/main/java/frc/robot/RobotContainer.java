@@ -8,9 +8,11 @@ import frc.lib.math.Filter;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ConveyorControl;
+import frc.robot.commands.MaintainAll;
 import frc.robot.commands.ShooterControl;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.PhotonVision;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.AnalogTrigger;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -35,6 +37,7 @@ public class RobotContainer {
   private Drive drive = new Drive();
   private Shooter shooter = new Shooter();
   private Conveyor conveyor = new Conveyor();
+  private PhotonVision photonVision = new PhotonVision();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final Joystick controller = new Joystick(OperatorConstants.kDriverControllerPort);
@@ -94,6 +97,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return null;
+    return new MaintainAll(photonVision, drive);
   }
 }
