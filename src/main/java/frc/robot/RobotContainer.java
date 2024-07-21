@@ -7,6 +7,7 @@ package frc.robot;
 import frc.lib.math.Filter;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ControllerRumble;
 import frc.robot.commands.ConveyorControl;
 import frc.robot.commands.MaintainAll;
 import frc.robot.commands.ShooterControl;
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -50,6 +52,7 @@ public class RobotContainer {
   private final DigitalInput middleSwitch = new DigitalInput(Constants.LimitSwitches.middleSwitch);
   private final DigitalInput bottomSwitch = new DigitalInput(Constants.LimitSwitches.bottomSwitch);
 
+  private final Trigger topSwitchTrigger = new Trigger(() -> topSwitch.get());
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -83,6 +86,8 @@ public class RobotContainer {
 
     a.onTrue(new InstantCommand(() -> shooter.tilt(-0.1)));
     a.onFalse(new InstantCommand(() -> shooter.tilt(0)));
+
+    topSwitchTrigger.onTrue(new ControllerRumble(controller));
   }
 
   public void diagnostics() {
