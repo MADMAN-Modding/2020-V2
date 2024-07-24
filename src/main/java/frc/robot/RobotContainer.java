@@ -87,7 +87,7 @@ public class RobotContainer {
     a.onTrue(new InstantCommand(() -> shooter.tilt(-0.1)));
     a.onFalse(new InstantCommand(() -> shooter.tilt(0)));
 
-    topSwitchTrigger.onTrue(new ControllerRumble(controller));
+    topSwitchTrigger.onFalse(new ControllerRumble(controller));
   }
 
   public void diagnostics() {

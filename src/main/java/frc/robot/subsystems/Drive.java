@@ -9,6 +9,8 @@ import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.math.Filter;
@@ -21,6 +23,8 @@ public class Drive extends SubsystemBase {
   private final VictorSPX followerLeft = new VictorSPX(Constants.DriveValues.followerLeft);
   private final VictorSPX followerRight = new VictorSPX(Constants.DriveValues.followerRight);
   
+  Pose2d pose2d = new Pose2d(0, 0, new Rotation2d(0));
+
   public Drive() {
     // Setting configs to avoid weird stuff from happening with configs, yeah, wahoo
     driveLeft.configFactoryDefault();
