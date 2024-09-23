@@ -27,10 +27,7 @@ public class ControllerRumble extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    timer.restart();
-    while (timer.get() < 3) {
       controller.setRumble(RumbleType.kBothRumble, 1);
-    }
   }
 
   // Called once the command ends or is interrupted.

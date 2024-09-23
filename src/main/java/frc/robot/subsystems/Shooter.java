@@ -8,7 +8,9 @@ import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -23,6 +25,9 @@ public class Shooter extends SubsystemBase {
   private final TalonSRX shooterLeft = new TalonSRX(Constants.Shooter.Propulsion.shooterLeft);
   private final TalonSRX shooterRight = new TalonSRX(Constants.Shooter.Propulsion.shooterRight);
   private final TalonFX tilt = new TalonFX(Constants.Shooter.Tilt.tilt);
+
+  private final VictorSPX conveyor = new VictorSPX(Constants.Conveyor.conveyor);
+  private final TalonFX beaterBar = new TalonFX(Constants.Conveyor.beaterBar);
 
   public DoubleSupplier conveyorSpeed = () -> 0.5;
 
@@ -62,9 +67,16 @@ public class Shooter extends SubsystemBase {
     shooterLeft.follow(shooterRight);
   }
 
-
+  public double getShooterVelocity() {
+    return shooterRight.getSelectedSensorVelocity();
+  }
 
   public void tilt(double direction) {
     tilt.setControl(new DutyCycleOut(direction));
+  }
+
+  public void moveConveyor(double conveyorPower) {
+    conveyor.set(VictorSPXControlMode.PercentOutput, conveyorPower);
+    beaterBar.set(conveyorPower);
   }
 }

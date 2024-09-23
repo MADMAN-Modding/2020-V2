@@ -31,7 +31,11 @@ public class ShooterControl extends InstantCommand {
   public void initialize() {}
 
   public void execute() {
-    double speed = !switchPressed.getAsBoolean() && buttonPressed.getAsBoolean() ? 0.5 : 0;
-    shooter.shoot(speed);
+    double shooterSpeed = !switchPressed.getAsBoolean() && buttonPressed.getAsBoolean() ? 0.5 : 0;
+    System.out.println(buttonPressed.getAsBoolean());
+    shooter.shoot(shooterSpeed);
+
+    double conveyorSpeed = (switchPressed.getAsBoolean() && buttonPressed.getAsBoolean()) || shooter.getShooterVelocity() > 34000 ? 0.5 : 0;
+    shooter.moveConveyor(conveyorSpeed);
   }
 }

@@ -5,10 +5,8 @@
 package frc.robot;
 
 import frc.lib.math.Filter;
-import frc.robot.subsystems.Conveyor;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ControllerRumble;
-import frc.robot.commands.ConveyorControl;
 import frc.robot.commands.MaintainAll;
 import frc.robot.commands.ShooterControl;
 import frc.robot.commands.TeleopDrive;
@@ -38,7 +36,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private Drive drive = new Drive();
   private Shooter shooter = new Shooter();
-  private Conveyor conveyor = new Conveyor();
+  // private Conveyor conveyor = new Conveyor();
   private PhotonVision photonVision = new PhotonVision();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -67,7 +65,6 @@ public class RobotContainer {
         () -> Filter.powerCurve(controller.getRawAxis(XboxController.Axis.kRightX.value), 3)));
 
     shooter.setDefaultCommand(new ShooterControl(() -> topSwitch.get(), () -> b.getAsBoolean(), shooter));
-    conveyor.setDefaultCommand(new ConveyorControl(() -> b.getAsBoolean(), () -> topSwitch.get(), conveyor, () -> 0.5));
 
     // shooter.setDefaultCommand(new ShooterControl(shooter, () -> topSwitch.get()));
   }
@@ -78,7 +75,7 @@ public class RobotContainer {
     // // // Runs the shooter
     // b.onTrue(new InstantCommand(() -> shooter.conveyor(0.7)));
     // b.onFalse(new InstantCommand(() -> shooter.conveyor(0)));
-    // b.onTrue(new ConveyorControl(() -> topSwitch.get(), shooter));
+    // b.onTrue(new ConveyorControl(() -> b.getAsBoolean(), () -> topSwitch.get(), conveyor, () -> 0.5));
     // b.onFalse(new ConveyorControl(() -> false, shooter));
 
     y.onTrue(new InstantCommand(() -> shooter.tilt(0.1)));
@@ -87,7 +84,7 @@ public class RobotContainer {
     a.onTrue(new InstantCommand(() -> shooter.tilt(-0.1)));
     a.onFalse(new InstantCommand(() -> shooter.tilt(0)));
 
-    topSwitchTrigger.onFalse(new ControllerRumble(controller));
+    topSwitchTrigger.onFalse(new ControllerRumble(controller).withTimeout(2));
   }
 
   public void diagnostics() {

@@ -46,7 +46,7 @@ public final class Constants {
     }
 
     public class driveRightPID {
-      public static double kP = 0.45;
+      public static double kP = 0.5;
       public static double kI = 0;
       public static double kD = 0;
       public static double kF = 0;
